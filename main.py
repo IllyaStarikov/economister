@@ -91,10 +91,20 @@ def ArticleEbookConvert():
         MdToEpub()
         print('SUCCESS: Markdown converted to Epub!')
         print("Enjoy!")
+        
+        # Move files only if they exist
+        if os.path.exists('./' + edition + '.epub'):
+            shutil.move('./' + edition + '.epub', './ebooks/')
+            print(f"Epub moved to ./ebooks/{edition}.epub")
+        else:
+            print(f"Warning: {edition}.epub not found")
+            
     finally:
-        shutil.rmtree('./temp')
-        os.remove('./' + edition + '.md')
-        shutil.move('./' + edition + '.epub', './ebooks/')
+        # Clean up temp files
+        if os.path.exists('./temp'):
+            shutil.rmtree('./temp')
+        if os.path.exists('./' + edition + '.md'):
+            os.remove('./' + edition + '.md')
 
     
 def GetEdition():
@@ -104,6 +114,9 @@ def GetEdition():
 
 def MdToEpub():
     edition = GetEdition()
-    subprocess.run(["./utils/mdtoepub.sh" + " " + edition + ".md" + " "  + edition + ".epub"], shell=True, capture_output=True, text=True)
+    result = subprocess.run(["./utils/mdtoepub.sh " + edition + ".md " + edition + ".epub"], shell=True, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"Error converting to epub: {result.stderr}")
+        print(f"Output: {result.stdout}")
 
 ArticleEbookConvert()
