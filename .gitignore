@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Project specific
+ebooks/
+temp/
+debug/
+log/
+*.epub
+*.md
+!README.md
+!install-instructions.md
+!AUTH_README.md
+
+# Authentication
+economist_cookies.json
+economist_cookies.pkl
+economist_cookie.txt
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Claude
+.claude/
